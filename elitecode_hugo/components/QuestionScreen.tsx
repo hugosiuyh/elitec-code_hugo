@@ -28,6 +28,9 @@ const QuestionScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.headercontainer}>
+        <Text style={styles.header}>Question 1</Text>
+      </View>
       <Text style={styles.question}>{question}</Text>
       {options.map((option, index) => (
         <TouchableOpacity
@@ -56,14 +59,28 @@ const QuestionScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  headercontainer: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    marginBottom: 10
+  },
   container: {
     flex: 1,
     padding: 20,
     justifyContent: 'center',
   },
+  header: {
+    fontSize: 16,
+    justifyContent: 'center',
+  },
   question: {
-    fontSize: 18,
-    marginBottom: 20,
+    fontSize: 16,
+    justifyContent: 'center',
+  },
+  questionDetail: {
+    fontSize: 14,
+    justifyContent: 'center',
   },
   option: {
     padding: 10,
@@ -72,7 +89,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   selectedOption: {
-    backgroundColor: '#e0e0e0',
+    borderColor: '#3E5F9E',
   },
   submitButton: {
     backgroundColor: '#007AFF',
