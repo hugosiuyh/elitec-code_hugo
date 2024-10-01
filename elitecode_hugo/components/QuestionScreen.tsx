@@ -1,105 +1,159 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import CorrectAnswerFeedback from './CorrectAnswerFeedback';
 import IncorrectAnswerFeedback from './IncorrectAnswerFeedback';
+import questions from '../constants/question.json';
 
 const QuestionScreen: React.FC = () => {
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [showFeedback, setShowFeedback] = useState<boolean>(false);
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const question = "What's the output of the following code?\nconsole.log(1 + \"2\" + \"2\");";
-  const options: string[] = ["122", "32", "14", "NaN"];
-  const correctAnswer = "122";
+  const currentQuestion = questions[currentQuestionIndex];
 
   const handleSubmit = () => {
-    if (selectedAnswer === correctAnswer) {
+    if (selectedAnswer === currentQuestion.correctAnswer) {
       setIsCorrect(true);
     } else {
       setIsCorrect(false);
     }
-    setShowFeedback(true);
+    setModalVisible(true);
   };
 
   const handleRetry = () => {
     setSelectedAnswer(null);
-    setShowFeedback(false);
+    setModalVisible(false);
+  };
+
+  const handleContinue = () => {
+    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    setSelectedAnswer(null);
+    setModalVisible(false);
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headercontainer}>
-        <Text style={styles.header}>Question 1</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.questionNumber}>Question {currentQuestion.id}</Text>
       </View>
-      <Text style={styles.question}>{question}</Text>
-      {options.map((option, index) => (
+      <View style={styles.contentContainer}>
+        <Text style={styles.questionText}>{currentQuestion.question}</Text>
+        <View style={styles.codeContainer}>
+          <Text style={styles.codeText}>{currentQuestion.subQuestion}</Text>
+        </View>
+        <View style={styles.optionsContainer}>
+          {currentQuestion.options.map((option, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                styles.option,
+                selectedAnswer === option && styles.selectedOption,
+              ]}
+              onPress={() => setSelectedAnswer(option)}
+            >
+              <Text style={styles.optionText}>{option}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
         <TouchableOpacity
-          key={index}
-          style={[
-            styles.option,
-            selectedAnswer === option && styles.selectedOption,
-          ]}
-          onPress={() => setSelectedAnswer(option)}
+          style={[styles.submitButton, !selectedAnswer && styles.submitButtonDisabled]}
+          onPress={handleSubmit}
+          disabled={!selectedAnswer}
         >
-          <Text>{option}</Text>
+          <Text style={styles.submitButtonText}>Submit</Text>
         </TouchableOpacity>
-      ))}
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Submit</Text>
-      </TouchableOpacity>
-      {showFeedback && (
-        isCorrect ? (
-          <CorrectAnswerFeedback />
-        ) : (
-          <IncorrectAnswerFeedback onRetry={handleRetry} />
-        )
+      </View>
+
+      {isCorrect ? (
+        <CorrectAnswerFeedback
+          onContinue={handleContinue}
+          isVisible={modalVisible}
+          hideModal={() => setModalVisible(false)}
+        />
+      ) : (
+        <IncorrectAnswerFeedback
+          onRetry={handleRetry}
+          isVisible={modalVisible}
+          hideModal={() => setModalVisible(false)}
+        />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  headercontainer: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-    marginBottom: 10
-  },
   container: {
     flex: 1,
+    backgroundColor: '#F5F5F5',
+  },
+  headerContainer: {
+    padding: 20,
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
+  questionNumber: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  contentContainer: {
+    flex: 1,
     padding: 20,
     justifyContent: 'center',
   },
-  header: {
-    fontSize: 16,
-    justifyContent: 'center',
+  questionText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#333',
   },
-  question: {
-    fontSize: 16,
-    justifyContent: 'center',
+  codeContainer: {
+    backgroundColor: '#E8E8E8',
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 30,
   },
-  questionDetail: {
-    fontSize: 14,
-    justifyContent: 'center',
+  codeText: {
+    fontFamily: 'monospace',
+    fontSize: 16,
+    color: '#333',
+  },
+  optionsContainer: {
+    marginBottom: 30,
   },
   option: {
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
+    backgroundColor: 'white',
+    padding: 15,
+    borderRadius: 8,
     marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   selectedOption: {
-    borderColor: '#3E5F9E',
+    backgroundColor: '#E0E0E0',
+    borderColor: '#007AFF',
+    borderWidth: 2,
+  },
+  optionText: {
+    fontSize: 16,
+    color: '#333',
   },
   submitButton: {
     backgroundColor: '#007AFF',
     padding: 15,
+    borderRadius: 8,
     alignItems: 'center',
-    marginTop: 20,
+  },
+  submitButtonDisabled: {
+    backgroundColor: '#B0B0B0',
   },
   submitButtonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

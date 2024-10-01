@@ -1,0 +1,9 @@
+[
+    {
+      "id": 1,
+      "question": "What's the output of the following code?",
+      "subQuestion": "console.log(1 + \"2\" + \"2\");",
+      "options": ["122", "32", "14", "NaN"],
+      "correctAnswer": "122"
+    }
+  ]
