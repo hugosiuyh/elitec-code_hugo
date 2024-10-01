@@ -4,7 +4,6 @@ import ModalComponent from './ModalComponent';
 import ButtonComponent from './ButtonComponent';
 import ConfettiAnimation from './ConfettiAnimation'; // Import the confetti animation
 
-
 interface Props {
   onContinue: () => void;
   isVisible: boolean;
@@ -24,7 +23,10 @@ const CorrectAnswerFeedback: React.FC<Props> = ({ onContinue, isVisible, hideMod
       contentStyle = {{ fontSize: 14, color:"#313131" }}
       buttonColor = {{backgroundColor:  '#88C796'}}
       buttonText = 'Continue'
-      onPress={onContinue}
+      onPress={() => {
+        console.log('onContinue triggered');
+        onContinue(); // Ensure this is triggered
+      }} // Correctly pass the onContinue handler
     >
     <ConfettiAnimation />
     </ ModalComponent >

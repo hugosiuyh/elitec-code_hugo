@@ -56,7 +56,9 @@ const ModalComponent: React.FC<Props> = ({
         {/* Use ButtonComponent and pass the onPress handler */}
         <ButtonComponent
           title={buttonText}
-          onPress={onPress}
+          onPress={() => {
+            console.log('Modal Button Pressed'); // Add this log
+            onPress();}}
           buttonColor={buttonColor}
         />
       </Animatable.View>

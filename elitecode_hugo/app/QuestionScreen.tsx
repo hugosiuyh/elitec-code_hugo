@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-native';
 import CorrectAnswerFeedback from '../components/CorrectAnswerFeedback';
 import IncorrectAnswerFeedback from '../components/IncorrectAnswerFeedback';
 import questions from '../constants/question.json';
-import ButtonComponent from "../components/ButtonComponent"
+import ButtonComponent from "../components/ButtonComponent";
 
 const QuestionScreen: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -28,18 +28,37 @@ const QuestionScreen: React.FC = () => {
   };
 
   const handleContinue = () => {
-    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-    setSelectedAnswer(null);
-    setModalVisible(false);
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      setSelectedAnswer(null);
+      setModalVisible(false);
+    } else {
+      console.log("No more questions!");
+      // Optionally handle the end of the quiz here (e.g., show a score or completion screen)
+      return (
+        <View style={styles.container}>
+          <Text style={styles.textCenter}>No more questions available.</Text>
+        </View>
+      );
+    }
   };
+
+  // Check if the currentQuestion exists to prevent undefined access
+  if (!currentQuestion) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.textCenter}>No more questions available.</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.questionNumber}>Question {currentQuestion.id}</Text>
+        <Text style={styles.textBold}>Question {currentQuestion.id}</Text>
       </View>
       <View style={styles.contentContainer}>
-        <Text style={styles.questionText}>{currentQuestion.question}</Text>
+        <Text style={styles.textBold}>{currentQuestion.question}</Text>
         <View style={styles.codeContainer}>
           <Text style={styles.codeText}>{currentQuestion.subQuestion}</Text>
         </View>
@@ -58,9 +77,9 @@ const QuestionScreen: React.FC = () => {
           ))}
         </View>
         <ButtonComponent
-          title='Submit'
+          title="Submit"
           onPress={handleSubmit}
-          buttonColor={[{backgroundColor: "#4E7EC6"}, !selectedAnswer && styles.submitButtonDisabled]}
+          buttonColor={[{ backgroundColor: selectedAnswer ? "#4E7EC6" : "#B0B0B0" }]}
         />
       </View>
 
@@ -92,22 +111,22 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
   },
-  questionNumber: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
   contentContainer: {
     flex: 1,
     padding: 20,
     justifyContent: 'center',
   },
-  questionText: {
-    fontSize: 20,
+  textBold: {
+    fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
     color: '#333',
+    textAlign: 'center',
+    paddingVertical: 10
+  },
+  textCenter: {
+    fontSize: 20,
+    color: '#333',
+    textAlign: 'center',
   },
   codeContainer: {
     backgroundColor: '#E8E8E8',
@@ -138,20 +157,6 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 16,
     color: '#333',
-  },
-  submitButton: {
-    backgroundColor: '#007AFF',
-    padding: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  submitButtonDisabled: {
-    backgroundColor: '#B0B0B0',
-  },
-  submitButtonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
 });
 

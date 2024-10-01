@@ -9,10 +9,14 @@ interface Props {
 
 
 const ButtonComponent: React.FC<Props> = ({ onPress, title, buttonColor}) => {
-  console.log(buttonColor)
   return (
     
-    <TouchableOpacity style={[styles.button,buttonColor]} onPress={onPress}>
+
+    <TouchableOpacity style={[styles.button,buttonColor]}       
+      onPress={() => {
+        console.log('Button Pressed'); // Add this to ensure onPress is firing
+        onPress(); // Ensure that this is correctly invoking the passed function
+      }}>
       <Text style={[styles.buttonText]}>{title}</Text>
     </TouchableOpacity>
   );

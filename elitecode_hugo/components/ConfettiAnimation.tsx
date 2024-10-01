@@ -45,7 +45,7 @@ const ConfettiAnimation: React.FC = () => {
   }, [emojiAnimations]);
 
   return (
-    <View style={styles.confettiContainer}>
+    <View style={styles.confettiContainer} pointerEvents="none">
       {emojis.map((emoji, index) => {
         const translateY = emojiAnimations[index].interpolate({
           inputRange: [0, 0.5, 1], // Include rise and fall
