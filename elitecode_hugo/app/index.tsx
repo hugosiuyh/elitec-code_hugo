@@ -71,7 +71,7 @@
 
 import React from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
-import QuestionScreen from '../../components/QuestionScreen';
+import QuestionScreen from './QuestionScreen';
 
 export default function App() {
   return (

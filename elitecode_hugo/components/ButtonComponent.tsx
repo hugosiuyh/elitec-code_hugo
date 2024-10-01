@@ -1,9 +1,36 @@
+import React from 'react';
+import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
-// const ButtonComponent: React.FC<Props> = ({
+interface Props {
+  onPress: () => void;
+  title: string;
+  buttonColor?: ViewStyle;
+}
 
 
-//     return 
-//     <TouchableOpacity style={styles.retryButton} onPress={onRetry}>
-//     <Text style={styles.retryButtonText}>Try Again</Text>
-//   </TouchableOpacity>
-// });
+const ButtonComponent: React.FC<Props> = ({ onPress, title, buttonColor}) => {
+  console.log(buttonColor)
+  return (
+    
+    <TouchableOpacity style={[styles.button,buttonColor]} onPress={onPress}>
+      <Text style={[styles.buttonText]}>{title}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: '#FF5254',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
+
+export default ButtonComponent;

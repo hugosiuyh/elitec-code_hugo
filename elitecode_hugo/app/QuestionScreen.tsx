@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
-import CorrectAnswerFeedback from './CorrectAnswerFeedback';
-import IncorrectAnswerFeedback from './IncorrectAnswerFeedback';
+import CorrectAnswerFeedback from '../components/CorrectAnswerFeedback';
+import IncorrectAnswerFeedback from '../components/IncorrectAnswerFeedback';
 import questions from '../constants/question.json';
+import ButtonComponent from "../components/ButtonComponent"
 
 const QuestionScreen: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -56,13 +57,11 @@ const QuestionScreen: React.FC = () => {
             </TouchableOpacity>
           ))}
         </View>
-        <TouchableOpacity
-          style={[styles.submitButton, !selectedAnswer && styles.submitButtonDisabled]}
+        <ButtonComponent
+          title='Submit'
           onPress={handleSubmit}
-          disabled={!selectedAnswer}
-        >
-          <Text style={styles.submitButtonText}>Submit</Text>
-        </TouchableOpacity>
+          buttonColor={[{backgroundColor: "#4E7EC6"}, !selectedAnswer && styles.submitButtonDisabled]}
+        />
       </View>
 
       {isCorrect ? (
@@ -133,8 +132,7 @@ const styles = StyleSheet.create({
     borderColor: '#E0E0E0',
   },
   selectedOption: {
-    backgroundColor: '#E0E0E0',
-    borderColor: '#007AFF',
+    borderColor: "#4E7EC6",
     borderWidth: 2,
   },
   optionText: {

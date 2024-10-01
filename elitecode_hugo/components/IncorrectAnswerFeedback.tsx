@@ -1,6 +1,7 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import ModalComponent from './ModalComponent';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import ButtonComponent from './ButtonComponent';
 
 interface Props {
   onRetry: () => void;
@@ -15,18 +16,19 @@ const IncorrectAnswerFeedback: React.FC<Props> = ({ onRetry, isVisible, hideModa
       hideModal={hideModal}
       title="Incorrect!"
       content="Hint: Think about how JavaScript handles different data types."
-      backgroundColor="#F9EDEE" // Red background for incorrect
+      backgroundColor="#F9EDEE"
+      titleStyle= {{ fontSize: 40, color:"#C78897" }}
+      contentStyle = {{ fontSize: 14, color:"#313131" }}
+      buttonColor = {{backgroundColor:  "#C78897"}}
+      buttonText = "Try Again"
+      onPress={onRetry}
       animationIn="tada"
       animationOut="fadeOut"
-    >
-      <TouchableOpacity style={styles.retryButton} onPress={onRetry}>
-        <Text style={styles.retryButtonText}>Try Again</Text>
-      </TouchableOpacity>
-    </ModalComponent>
+    />
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   retryButton: {
     backgroundColor: 'white',
     padding: 10,
@@ -38,6 +40,6 @@ const styles = {
     fontSize: 16,
     fontWeight: 'bold',
   },
-};
+});
 
 export default IncorrectAnswerFeedback;

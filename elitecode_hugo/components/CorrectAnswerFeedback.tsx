@@ -1,35 +1,47 @@
-import React, { useEffect, useRef } from 'react';
-import { Text, StyleSheet, Animated } from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import ModalComponent from './ModalComponent';
+import ButtonComponent from './ButtonComponent';
+import ConfettiAnimation from './ConfettiAnimation'; // Import the confetti animation
 
-const CorrectAnswerFeedback: React.FC = () => {
-  const scaleAnim = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    Animated.spring(scaleAnim, {
-      toValue: 1,
-      useNativeDriver: true,
-    }).start();
-  }, []);
+interface Props {
+  onContinue: () => void;
+  isVisible: boolean;
+  hideModal: () => void;
+}
 
+const CorrectAnswerFeedback: React.FC<Props> = ({ onContinue, isVisible, hideModal }) => {
   return (
-    <Animated.View style={[styles.container, { transform: [{ scale: scaleAnim }] }]}>
-      <Text style={styles.text}>Congratulations! You earned the Coding Master badge!</Text>
-    </Animated.View>
+    <ModalComponent
+      isVisible={isVisible}
+      hideModal={hideModal}
+      title="Congratulations! You earned the Expert badge"
+      content=""
+      backgroundColor="#EDF9F5" // Green background for correct
+      animationOut="fadeOut"
+      titleStyle= {{ fontSize: 40, color:"#88C796" }}
+      contentStyle = {{ fontSize: 14, color:"#313131" }}
+      buttonColor = {{backgroundColor:  '#88C796'}}
+      buttonText = 'Continue'
+      onPress={onContinue}
+    >
+    <ConfettiAnimation />
+    </ ModalComponent >
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#4CAF50',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 20,
+  continueButton: {
+    backgroundColor: 'white',
+    padding: 15,
+    borderRadius: 8,
+    marginTop: 10,
   },
-  text: {
-    color: 'white',
-    fontSize: 16,
-    textAlign: 'center',
+  continueButtonText: {
+    color: '#4CAF50',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
