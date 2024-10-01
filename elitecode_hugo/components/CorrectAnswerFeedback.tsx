@@ -17,7 +17,7 @@ const CorrectAnswerFeedback: React.FC<Props> = ({ onContinue, isVisible, hideMod
       hideModal={hideModal}
       title="Congratulations! You earned the Expert badge"
       content=""
-      backgroundColor="#EDF9F5" // Green background for correct
+      backgroundColor="#EDF9F5" 
       animationOut="fadeOut"
       titleStyle= {{ fontSize: 40, color:"#88C796" }}
       contentStyle = {{ fontSize: 14, color:"#313131" }}
@@ -32,19 +32,5 @@ const CorrectAnswerFeedback: React.FC<Props> = ({ onContinue, isVisible, hideMod
     </ ModalComponent >
   );
 };
-
-const styles = StyleSheet.create({
-  continueButton: {
-    backgroundColor: 'white',
-    padding: 15,
-    borderRadius: 8,
-    marginTop: 10,
-  },
-  continueButtonText: {
-    color: '#4CAF50',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});
 
 export default CorrectAnswerFeedback;

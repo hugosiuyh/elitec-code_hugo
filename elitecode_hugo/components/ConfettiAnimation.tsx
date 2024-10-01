@@ -3,11 +3,9 @@ import { View, Animated, StyleSheet, Dimensions, Easing } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
-// Array of confetti emojis
 const emojis = ['🎉', '🎊', '🎉', '🎊', '🎉', '🎉', '🎉', '🌟'];
 
 const ConfettiAnimation: React.FC = () => {
-  // Array of animated values for each emoji
   const emojiAnimations = useRef(emojis.map(() => new Animated.Value(0))).current;
 
   useEffect(() => {
@@ -40,7 +38,7 @@ const ConfettiAnimation: React.FC = () => {
       });
     });
 
-    // Start all animations at the same time
+    // Start all animations different times instead of PARALLEL
     Animated.stagger(90, animations).start();
   }, [emojiAnimations]);
 

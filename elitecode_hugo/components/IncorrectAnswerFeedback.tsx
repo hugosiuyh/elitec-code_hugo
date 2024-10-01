@@ -28,18 +28,4 @@ const IncorrectAnswerFeedback: React.FC<Props> = ({ onRetry, isVisible, hideModa
   );
 };
 
-const styles = StyleSheet.create({
-  retryButton: {
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 10,
-  },
-  retryButtonText: {
-    color: '#FF5252',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-});
-
 export default IncorrectAnswerFeedback;
